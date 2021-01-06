@@ -1,8 +1,9 @@
 const express = require('express');
 const routes = express.Router();
 
-const Person = require('./peopleRoutes');
+const Person = require('./personRoutes');
 const Animal = require('./animalRoutes');
+const Batch = require('./batchRoutes');
 
 routes.get('/', function (req, res) {
   res.send('Im working here');
@@ -10,5 +11,6 @@ routes.get('/', function (req, res) {
 
 Person(routes);
 Animal(routes);
+Batch(routes);
 
 module.exports = routes;
