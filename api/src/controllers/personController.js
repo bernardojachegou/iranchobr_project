@@ -1,4 +1,3 @@
-const { findAll } = require('../models/Person');
 const Person = require('../models/Person');
 
 module.exports = {
