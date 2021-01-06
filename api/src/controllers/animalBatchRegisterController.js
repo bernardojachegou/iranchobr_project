@@ -34,11 +34,13 @@ module.exports = {
     const register = await AnimalBatchRegister.findOne(registerId);
     const data = req.body;
 
+    console.log(data);
+
     if (!register) {
       return res.status(404).json({ error: true, message: 'Not found' });
     } else {
       await AnimalBatchRegister.updateRegister({
-        id: data.registerId,
+        id: registerId,
         fk_id_animal: data.fk_id_animal,
         fk_id_lote: data.fk_id_lote,
         dt_entrada: data.dt_entrada,
