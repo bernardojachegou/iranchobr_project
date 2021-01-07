@@ -2,8 +2,11 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import Home from "../pages/PageHome";
 import CreateAnimal from "../pages/pageAnimal/CreateAnimal";
+import ListAnimal from "../pages/pageAnimal/ListAnimal";
 import CreatePerson from "../pages/pagePerson/CreatePerson";
+import ListPerson from "../pages/pagePerson/ListPerson";
 import CreateBatch from "../pages/pageBatch/CreateBatch";
+import ListBatch from "../pages/pageBatch/ListBatch";
 
 Vue.use(VueRouter);
 
@@ -14,19 +17,34 @@ const routes = [
     component: Home,
   },
   {
-    path: "/animal/create",
+    path: "/animals/create",
     name: "CreateAnimal",
     component: CreateAnimal,
   },
   {
-    path: "/person/create",
+    path: "/animals/list",
+    name: "ListAnimal",
+    component: ListAnimal,
+  },
+  {
+    path: "/people/create",
     name: "CreatePerson",
     component: CreatePerson,
   },
   {
-    path: "/batch/create",
+    path: "/people/list",
+    name: "ListPerson",
+    component: ListPerson,
+  },
+  {
+    path: "/batches/create",
     name: "CreateBatch",
     component: CreateBatch,
+  },
+  {
+    path: "/batches/list",
+    name: "ListBatch",
+    component: ListBatch,
   },
 ];
 

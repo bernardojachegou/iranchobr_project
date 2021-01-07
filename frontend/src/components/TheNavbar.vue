@@ -26,9 +26,21 @@
         </b-nav-item-dropdown>
 
         <b-nav-item-dropdown text="Listas" right>
-          <b-dropdown-item href="#">Animais</b-dropdown-item>
-          <b-dropdown-item href="#">Pessoas</b-dropdown-item>
-          <b-dropdown-item href="#">Lotes</b-dropdown-item>
+          <b-dropdown-item
+            ><router-link :to="{ name: 'ListAnimal' }"
+              >Animais</router-link
+            ></b-dropdown-item
+          >
+          <b-dropdown-item
+            ><router-link :to="{ name: 'ListPerson' }"
+              >Pessoas</router-link
+            ></b-dropdown-item
+          >
+          <b-dropdown-item
+            ><router-link :to="{ name: 'ListBatch' }"
+              >Lotes</router-link
+            ></b-dropdown-item
+          >
         </b-nav-item-dropdown>
 
         <!-- Search input -->
