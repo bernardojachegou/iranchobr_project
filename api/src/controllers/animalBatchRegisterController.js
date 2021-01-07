@@ -34,8 +34,6 @@ module.exports = {
     const register = await AnimalBatchRegister.findOne(registerId);
     const data = req.body;
 
-    console.log(data);
-
     if (!register) {
       return res.status(404).json({ error: true, message: 'Not found' });
     } else {
