@@ -1,6 +1,9 @@
 <template>
   <div>
     <TheNavbar />
+    <div class="d-flex justify-content-center">
+      <h1>Dados de Registros</h1>
+    </div>
     <TheSearchInput />
   </div>
 </template>
