@@ -3,11 +3,11 @@
     <TheNavbar />
     <div class="main">
       <div class="d-flex justify-content-center">
-        <h2>Listagem de pessoas</h2>
+        <h2>Listagem de lotes</h2>
       </div>
       <div class="input-box">
         <div>
-          <b-table striped hover :items="items"></b-table>
+          <b-table striped hover :items="batches"></b-table>
         </div>
       </div>
     </div>
@@ -16,30 +16,16 @@
 
 <script>
 import TheNavbar from "@/components/TheNavbar";
+import api from "@/services/api";
 export default {
   components: {
     TheNavbar,
   },
-  data() {
-    return {
-      items: [
-        {
-          id: 1,
-          nome: "Animais de grande porte",
-          descrição: "Animais da raça x",
-        },
-        {
-          id: 1,
-          nome: "Animais de grande porte",
-          descrição: "Animais da raça x",
-        },
-        {
-          id: 1,
-          nome: "Animais de grande porte",
-          descrição: "Animais da raça x",
-        },
-      ],
-    };
+  data: () => ({
+    batches: Array,
+  }),
+  created() {
+    api.get("/batches").then((value) => (this.batches = value.data));
   },
 };
 </script>

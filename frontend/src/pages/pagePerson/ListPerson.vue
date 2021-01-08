@@ -7,11 +7,7 @@
       </div>
       <div class="input-box">
         <div>
-          <!-- Test API -->
-          <div v-for="person in people" :key="person.id">
-            <h2>{{ person.no_pessoa }}</h2>
-          </div>
-          <!-- <b-table striped hover :items="items"></b-table> -->
+          <b-table striped hover :items="people"></b-table>
         </div>
       </div>
     </div>

@@ -7,7 +7,7 @@
       </div>
       <div class="input-box">
         <div>
-          <b-table striped hover :items="items"></b-table>
+          <b-table striped hover :items="animals"></b-table>
         </div>
       </div>
     </div>
@@ -16,30 +16,16 @@
 
 <script>
 import TheNavbar from "@/components/TheNavbar";
+import api from "@/services/api";
 export default {
   components: {
     TheNavbar,
   },
-  data() {
-    return {
-      items: [
-        {
-          id: 1,
-          nome: "Blob",
-          raça: "Dickerson",
-        },
-        {
-          id: 1,
-          nome: "Blob",
-          raça: "Dickerson",
-        },
-        {
-          id: 1,
-          nome: "Blob",
-          raça: "Dickerson",
-        },
-      ],
-    };
+  data: () => ({
+    animals: Array,
+  }),
+  created() {
+    api.get("/animals").then((value) => (this.animals = value.data));
   },
 };
 </script>
