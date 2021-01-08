@@ -17,7 +17,12 @@
               label-cols-sm="3"
               label-align-sm="right"
             >
-              <b-form-input id="nome"></b-form-input>
+              <b-form-input
+                id="nome"
+                type="text"
+                placeholder="Nome completo"
+                v-model="form.name"
+              ></b-form-input>
             </b-form-group>
 
             <b-form-group
@@ -26,7 +31,12 @@
               label-cols-sm="3"
               label-align-sm="right"
             >
-              <b-form-input id="email" type="email"></b-form-input>
+              <b-form-input
+                id="email"
+                type="email"
+                placeholder="exemplo@exemplo.com"
+                v-model="form.email"
+              ></b-form-input>
             </b-form-group>
 
             <b-form-group
@@ -35,7 +45,12 @@
               label-cols-sm="3"
               label-align-sm="right"
             >
-              <b-form-input id="endereco"></b-form-input>
+              <b-form-input
+                id="endereco"
+                type="text"
+                placeholder="Endereço completo"
+                v-model="form.address"
+              ></b-form-input>
             </b-form-group>
 
             <b-form-group
@@ -49,6 +64,7 @@
                 class="pt-2"
                 :options="['M', 'F']"
                 :aria-describedby="ariaDescribedby"
+                v-model="form.gender"
               ></b-form-radio-group>
             </b-form-group>
 
@@ -61,16 +77,33 @@
             >
               <b-form-radio-group
                 class="pt-2"
-                :options="['Sim', 'Não']"
                 :aria-describedby="ariaDescribedby"
-              ></b-form-radio-group>
+                v-model="form.active"
+              >
+                <b-form-radio
+                  v-model="form.active"
+                  :aria-describedby="ariaDescribedby"
+                  name="some-radios"
+                  value="true"
+                  >Sim</b-form-radio
+                >
+                <b-form-radio
+                  v-model="form.active"
+                  :aria-describedby="ariaDescribedby"
+                  name="some-radios"
+                  value="false"
+                  >Não</b-form-radio
+                >
+              </b-form-radio-group>
             </b-form-group>
           </b-form-group>
         </b-card>
       </div>
       <div class="d-flex justify-content-around">
-        <b-button variant="dark" size="lg">Cadastrar</b-button>
-        <b-button variant="dark" size="lg">Voltar</b-button>
+        <b-button variant="dark" size="lg" @click="addPerson"
+          >Cadastrar</b-button
+        >
+        <BackButton />
       </div>
     </div>
   </div>
@@ -78,9 +111,37 @@
 
 <script>
 import TheNavbar from "@/components/TheNavbar";
+import BackButton from "@/components/TheGoBackButton";
+import api from "@/services/api";
 export default {
   components: {
     TheNavbar,
+    BackButton,
+  },
+  data: () => ({
+    form: {
+      name: "",
+      email: "",
+      address: "",
+      gender: "M",
+      active: true,
+    },
+  }),
+  methods: {
+    addPerson() {
+      const form = {
+        no_pessoa: this.form.name,
+        no_email: this.form.email,
+        endereco: this.form.address,
+        sexo: this.form.gender,
+        ic_ativo: this.form.active,
+      };
+
+      api.post("/people", form).then(
+        () => (this.form = {}),
+        (err) => console.log(err)
+      );
+    },
   },
 };
 </script>

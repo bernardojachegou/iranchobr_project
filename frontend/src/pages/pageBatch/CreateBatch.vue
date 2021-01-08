@@ -46,7 +46,7 @@
           <b-button variant="dark" size="lg" @click="addBatch"
             >Cadastrar</b-button
           >
-          <TheGoBackButton />
+          <BackButton />
         </div>
       </div>
     </div>
@@ -55,12 +55,12 @@
 
 <script>
 import TheNavbar from "@/components/TheNavbar";
-import TheGoBackButton from "@/components/TheGoBackButton";
+import BackButton from "@/components/TheGoBackButton";
 import api from "@/services/api";
 export default {
   components: {
     TheNavbar,
-    TheGoBackButton,
+    BackButton,
   },
   data: () => ({
     form: {
