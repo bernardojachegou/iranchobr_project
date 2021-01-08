@@ -1,8 +1,8 @@
 <template>
   <div>
     <TheNavbar />
-    <TheAlert :dismissCountDown="dismissCountDown" />
     <div class="main">
+      <TheAlert :dismissCountDown="dismissCountDown" />
       <div class="input-box">
         <b-card bg-variant="light">
           <b-form-group

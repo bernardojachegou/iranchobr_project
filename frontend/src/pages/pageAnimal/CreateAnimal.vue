@@ -2,6 +2,7 @@
   <div>
     <TheNavbar />
     <div class="main">
+      <TheAlert :dismissCountDown="dismissCountDown" />
       <div class="input-box">
         <b-card bg-variant="light">
           <b-form-group
@@ -123,7 +124,6 @@
 import TheNavbar from "@/components/TheNavbar";
 import BackButton from "@/components/TheGoBackButton";
 import TheAlert from "@/components/TheAlert";
-
 import api from "@/services/api";
 export default {
   components: {
@@ -142,6 +142,7 @@ export default {
       weight: "",
       birthdate: "",
     },
+    dismissCountDown: 0,
   }),
   methods: {
     addAnimal() {
@@ -158,15 +159,17 @@ export default {
       };
 
       api.post("/animals", form).then(
-        () =>
-          (this.form = {
+        () => {
+          this.form = {
             farm_id: "",
             animal_name: "",
             ox_breed: "",
             gender: "M",
             weight: "",
             birthdate: "",
-          }),
+          };
+          this.dismissCountDown = 3;
+        },
         (err) => console.log(err)
       );
     },

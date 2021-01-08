@@ -2,6 +2,7 @@
   <div>
     <TheNavbar />
     <div class="main">
+      <TheAlert :dismissCountDown="dismissCountDown" />
       <div class="input-box">
         <div>
           <b-card bg-variant="light">
@@ -56,11 +57,13 @@
 <script>
 import TheNavbar from "@/components/TheNavbar";
 import BackButton from "@/components/TheGoBackButton";
+import TheAlert from "@/components/TheAlert";
 import api from "@/services/api";
 export default {
   components: {
     TheNavbar,
     BackButton,
+    TheAlert,
   },
   data: () => ({
     form: {
@@ -76,7 +79,9 @@ export default {
       };
 
       api.post("/batches", form).then(
-        () => (this.form = {}),
+        () => {
+          (this.form = {}), (this.dismissCountDown = 3);
+        },
         (err) => console.log(err)
       );
     },
