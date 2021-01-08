@@ -5,7 +5,9 @@
       <div class="d-flex justify-content-center">
         <h1>Informações de registros</h1>
       </div>
-      <TheSearchInput />
+      <div class="input-box">
+        <TheSearchInput />
+      </div>
     </div>
   </div>
 </template>

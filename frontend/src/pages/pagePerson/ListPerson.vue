@@ -7,7 +7,11 @@
       </div>
       <div class="input-box">
         <div>
-          <b-table striped hover :items="items"></b-table>
+          <!-- Test API -->
+          <div v-for="person in people" :key="person.id">
+            <h2>{{ person.no_pessoa }}</h2>
+          </div>
+          <!-- <b-table striped hover :items="items"></b-table> -->
         </div>
       </div>
     </div>
@@ -16,33 +20,16 @@
 
 <script>
 import TheNavbar from "@/components/TheNavbar";
+import api from "@/services/api";
 export default {
   components: {
     TheNavbar,
   },
-  data() {
-    return {
-      items: [
-        {
-          nome: "Fernando",
-          email: "fernando@gmail.com",
-          endereço: "Rua Manoel Fernandes",
-          Ver_detalhes: ">>Botão<<",
-        },
-        {
-          nome: "Fernando",
-          email: "fernando@gmail.com",
-          endereço: "Rua Manoel Fernandes",
-          Ver_detalhes: ">>Botão<<",
-        },
-        {
-          nome: "Fernando",
-          email: "fernando@gmail.com",
-          endereço: "Rua Manoel Fernandes",
-          Ver_detalhes: ">>Botão<<",
-        },
-      ],
-    };
+  data: () => ({
+    people: Array,
+  }),
+  created() {
+    api.get("/people").then((value) => (this.people = value.data));
   },
 };
 </script>
