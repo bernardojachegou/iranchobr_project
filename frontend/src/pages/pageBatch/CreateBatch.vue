@@ -18,7 +18,11 @@
                 label-cols-sm="3"
                 label-align-sm="right"
               >
-                <b-form-input id="lote"></b-form-input>
+                <b-form-input
+                  id="lote"
+                  type="text"
+                  v-model="form.name"
+                ></b-form-input>
               </b-form-group>
 
               <b-form-group
@@ -27,7 +31,11 @@
                 label-cols-sm="3"
                 label-align-sm="right"
               >
-                <b-form-textarea id="descricao-lote"></b-form-textarea>
+                <b-form-textarea
+                  id="descricao-lote"
+                  type="text"
+                  v-model="form.description"
+                ></b-form-textarea>
               </b-form-group>
             </b-form-group>
           </b-card>
@@ -35,8 +43,10 @@
       </div>
       <div>
         <div class="d-flex justify-content-around">
-          <b-button variant="dark" size="lg">Cadastrar</b-button>
-          <b-button variant="dark" size="lg">Voltar</b-button>
+          <b-button variant="dark" size="lg" @click="addBatch"
+            >Cadastrar</b-button
+          >
+          <TheGoBackButton />
         </div>
       </div>
     </div>
@@ -45,9 +55,31 @@
 
 <script>
 import TheNavbar from "@/components/TheNavbar";
+import TheGoBackButton from "@/components/TheGoBackButton";
+import api from "@/services/api";
 export default {
   components: {
     TheNavbar,
+    TheGoBackButton,
+  },
+  data: () => ({
+    form: {
+      name: "",
+      description: "",
+    },
+  }),
+  methods: {
+    addBatch() {
+      const form = {
+        no_lote: this.form.name,
+        ds_lote: this.form.description,
+      };
+
+      api.post("/batches", form).then(
+        () => (this.form = {}),
+        (err) => console.log(err)
+      );
+    },
   },
 };
 </script>
