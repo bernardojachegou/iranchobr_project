@@ -133,7 +133,7 @@ export default {
   },
   data: () => ({
     owner: null,
-    owners: [{ value: 1, text: "Michel" }],
+    owners: [],
     form: {
       farm_id: "",
       animal_name: "",
@@ -146,8 +146,6 @@ export default {
   }),
   methods: {
     addAnimal() {
-      console.log(this.owner);
-      debugger;
       const form = {
         fk_id_pessoa: this.owner,
         id_fazenda: this.form.farm_id,

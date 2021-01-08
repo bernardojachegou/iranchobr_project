@@ -20,15 +20,17 @@
 </template>
 
 <script>
+import api from "@/services/api";
 export default {
+  name: "About",
   data: () => ({
     selected: null,
     searchName: "",
-    options: [{ value: null, text: "Nome do animal" }],
+    animals: [],
   }),
   computed: {
     filterNameOptions() {
-      return this.options.filter((item) =>
+      return this.animals.filter((item) =>
         item.text.toLowerCase().includes(this.searchName.toLowerCase())
       );
     },
@@ -36,11 +38,32 @@ export default {
   methods: {
     selectedOption(option) {
       this.selected = option.text;
+
+      api.get("/animalRegisters").then((value) => {
+        const filterAnimals = value.data.filter((animal) => {
+          if (animal.fk_id_animal === option.value.id) {
+            return animal;
+          }
+          return null;
+        });
+        this.$emit("animal", {
+          animals: option.value,
+          filterAnimals,
+        });
+      });
     },
     resetSelected() {
       this.selected = null;
       this.$nextTick(() => this.$refs.searchOption.focus());
     },
+  },
+  created() {
+    api.get("/animals").then((value) => {
+      this.animals = value.data.map((animal) => ({
+        value: animal,
+        text: animal.no_animal,
+      }));
+    });
   },
 };
 </script>
