@@ -1,6 +1,7 @@
 <template>
   <div>
     <TheNavbar />
+    <TheAlert :dismissCountDown="dismissCountDown" />
     <div class="main">
       <div class="input-box">
         <b-card bg-variant="light">
@@ -112,11 +113,13 @@
 <script>
 import TheNavbar from "@/components/TheNavbar";
 import BackButton from "@/components/TheGoBackButton";
+import TheAlert from "@/components/TheAlert";
 import api from "@/services/api";
 export default {
   components: {
     TheNavbar,
     BackButton,
+    TheAlert,
   },
   data: () => ({
     form: {
@@ -126,6 +129,7 @@ export default {
       gender: "M",
       active: true,
     },
+    dismissCountDown: 0,
   }),
   methods: {
     addPerson() {
@@ -138,7 +142,16 @@ export default {
       };
 
       api.post("/people", form).then(
-        () => (this.form = {}),
+        () => {
+          this.form = {
+            name: "",
+            email: "",
+            address: "",
+            gender: "M",
+            active: true,
+          };
+          this.dismissCountDown = 3;
+        },
         (err) => console.log(err)
       );
     },

@@ -7,7 +7,7 @@
         </b-nav-item>
 
         <!-- Navbar dropdowns -->
-        <b-nav-item-dropdown text="Cadastro" right>
+        <b-nav-item-dropdown text="Cadastros" right>
           <b-dropdown-item
             ><router-link :to="{ name: 'CreateAnimal' }"
               >Animais</router-link
