@@ -1,11 +1,15 @@
 <template>
   <div>
     <TheNavbar />
-    <div class="d-flex justify-content-center">
-      <h2>Listagem de pessoas</h2>
-    </div>
-    <div>
-      <b-table striped hover :items="items"></b-table>
+    <div class="main">
+      <div class="d-flex justify-content-center">
+        <h2>Listagem de pessoas</h2>
+      </div>
+      <div class="input-box">
+        <div>
+          <b-table striped hover :items="items"></b-table>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -23,7 +27,19 @@ export default {
           nome: "Fernando",
           email: "fernando@gmail.com",
           endereço: "Rua Manoel Fernandes",
-          detalhes: ">>Botão<<",
+          Ver_detalhes: ">>Botão<<",
+        },
+        {
+          nome: "Fernando",
+          email: "fernando@gmail.com",
+          endereço: "Rua Manoel Fernandes",
+          Ver_detalhes: ">>Botão<<",
+        },
+        {
+          nome: "Fernando",
+          email: "fernando@gmail.com",
+          endereço: "Rua Manoel Fernandes",
+          Ver_detalhes: ">>Botão<<",
         },
       ],
     };

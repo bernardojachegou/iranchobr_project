@@ -42,8 +42,6 @@
             ></b-dropdown-item
           >
         </b-nav-item-dropdown>
-
-        <!-- Search input -->
       </b-navbar-nav>
     </b-navbar>
   </div>

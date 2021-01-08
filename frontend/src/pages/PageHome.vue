@@ -1,10 +1,12 @@
 <template>
   <div>
     <TheNavbar />
-    <div class="d-flex justify-content-center">
-      <h1>Dados de Registros</h1>
+    <div class="main">
+      <div class="d-flex justify-content-center">
+        <h1>Informações de registros</h1>
+      </div>
+      <TheSearchInput />
     </div>
-    <TheSearchInput />
   </div>
 </template>
 

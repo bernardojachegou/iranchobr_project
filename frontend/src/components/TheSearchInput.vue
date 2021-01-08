@@ -21,7 +21,6 @@
 
 <script>
 export default {
-  name: "About",
   data: () => ({
     selected: null,
     searchName: "",
