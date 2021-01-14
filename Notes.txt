@@ -1,0 +1,13 @@
+TODO'S:
+---------------------------------------------------------
+BACKEND:
+1. Verify backend flux; 
+2. Adding Validations (not accepting empty strings);
+3. Adding sequelizer into the backend;
+4. Change the to work with MySQL;
+---------------------------------------------------------
+FRONTEND:
+1. Set the correct flux into the frontend;
+2. Improve frontend with Vuex;
+3. Refactoring the code with Vue guide;
+---------------------------------------------------------
