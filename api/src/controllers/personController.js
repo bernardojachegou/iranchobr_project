@@ -1,4 +1,4 @@
-const Person = require('../models/Person');
+const Person = require("../models/Person");
 
 module.exports = {
   async index(req, res) {
@@ -6,7 +6,7 @@ module.exports = {
     const people = results.rows;
 
     if (people == 0) {
-      return res.status(406).json({ error: true, message: 'empty table' });
+      return res.status(406).json({ error: true, message: "empty table" });
     } else {
       return res.json(people);
     }
@@ -17,7 +17,7 @@ module.exports = {
     const person = await Person.findOne(personId);
 
     if (person == 0) {
-      return res.status(406).json({ error: true, message: 'empty' });
+      return res.status(406).json({ error: true, message: "empty" });
     } else {
       return res.json(person);
     }
@@ -35,7 +35,7 @@ module.exports = {
     const data = req.body;
 
     if (!person) {
-      return res.status(404).json({ error: true, message: 'Not found' });
+      return res.status(404).json({ error: true, message: "Not found" });
     } else {
       await Person.updatePerson({
         id: personId,
@@ -45,7 +45,7 @@ module.exports = {
         sexo: data.sexo,
         ic_ativo: data.ic_ativo,
       });
-      return res.status(202).json({ error: false, message: 'updated!' });
+      return res.status(202).json({ error: false, message: "updated!" });
     }
   },
 
@@ -54,12 +54,12 @@ module.exports = {
     const person = await Person.findOne(personId);
 
     if (!person) {
-      return res.status(404).json({ error: true, message: 'Not found!' });
+      return res.status(404).json({ error: true, message: "Not found!" });
     } else {
       await Person.deletePerson(personId);
       return res
         .status(200)
-        .json({ error: false, message: 'Register deleted!' });
+        .json({ error: false, message: "Register deleted!" });
     }
   },
 };
