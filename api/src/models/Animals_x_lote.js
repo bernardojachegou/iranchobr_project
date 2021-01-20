@@ -1,5 +1,5 @@
 module.exports = (sequelize, DataTypes) => {
-  const animalBatchRegister = sequelize.define("animal_x_lote", {
+  const animals_x_lote = sequelize.define("animals_x_lote", {
     id: {
       type: DataTypes.INTEGER,
       primaryKey: true,
@@ -10,7 +10,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
-        model: "animal",
+        model: "animals",
         key: "id",
       },
     },
@@ -18,7 +18,7 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
-        model: "animal_lote",
+        model: "animals_lotes",
         key: "id",
       },
     },
@@ -38,9 +38,9 @@ module.exports = (sequelize, DataTypes) => {
     },
   });
 
-  animalBatchRegister.associate = (models) => {
-    animalBatchRegister.belongsTo(models.batch, { foreignKey: "fk_id_lote" });
+  animals_x_lote.associate = (models) => {
+    animals_x_lote.belongsTo(models.animals_lote, { foreignKey: "fk_id_lote" });
   };
 
-  return animalBatchRegister;
+  return animals_x_lote;
 };

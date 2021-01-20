@@ -1,66 +1,62 @@
-const AnimalBatchRegister = require('../models/AnimalBatchRegister');
+const { animals_x_lote, animals_lote } = require("../models");
+const { handleCatchedError } = require("../utils");
+exports.get = async (req, res, next) => {
+  try {
+    const animals = await animals_x_lote.findAll();
+    return res.json(animals);
+  } catch (error) {
+    res.status(500).json(error.message);
+  }
+};
+exports.findOne = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const oanimals_x_lote = await animals_x_lote.findAll({
+      include: [{ model: animals_lote, required: true }],
+      where: {
+        fk_id_animal: id,
+      },
+    });
+    return res.json(oanimals_x_lote);
+  } catch (error) {
+    res.status(500).json(error.message);
+  }
+};
+exports.post = async (req, res, next) => {
+  try {
+    const oanimals_x_lote = await animals_x_lote.create(req.body);
+    return res.json(oanimals_x_lote);
+  } catch (error) {
+    handleCatchedError(res, error.message, 400);
+  }
+};
 
-module.exports = {
-  async index(req, res) {
-    let results = await AnimalBatchRegister.findAll();
-    const animalBatchRegisters = results.rows;
+exports.put = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    // Add conditional to handle not found data;
+    await animals_x_lote.update({ ...req.body }, { where: { id } });
+    return res.json({ updated: true });
+  } catch (error) {
+    handleCatchedError(res, error.message, 400);
+  }
+};
 
-    if (animalBatchRegisters == 0) {
-      return res.status(406).json({ error: true, message: 'empty table' });
-    } else {
-      return res.json(animalBatchRegisters);
+exports.delete = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const oanimals_x_lote = await animals_x_lote.findByPk(id);
+
+    if (oanimals_x_lote) {
+      oanimals_x_lote.destroy();
+      return res.json({ deleted: true });
     }
-  },
 
-  async find(req, res) {
-    const registerId = req.params.id;
-    const register = await AnimalBatchRegister.findOne(registerId);
-
-    if (register == 0) {
-      return res.status(406).json({ error: true, message: 'empty' });
-    } else {
-      return res.json(register);
-    }
-  },
-
-  async post(req, res) {
-    const data = req.body;
-    await AnimalBatchRegister.createRegister(data);
-    return res.status(201).json(data);
-  },
-
-  async put(req, res) {
-    const registerId = req.params.id;
-    const register = await AnimalBatchRegister.findOne(registerId);
-    const data = req.body;
-
-    if (!register) {
-      return res.status(404).json({ error: true, message: 'Not found' });
-    } else {
-      await AnimalBatchRegister.updateRegister({
-        id: registerId,
-        fk_id_animal: data.fk_id_animal,
-        fk_id_lote: data.fk_id_lote,
-        dt_entrada: data.dt_entrada,
-        dt_saida: data.dt_saida,
-        dt_ultima_movimentacao: data.dt_ultima_movimentacao,
-        ic_bezerro: data.ic_bezerro,
-      });
-      return res.status(202).json({ error: false, message: 'updated!' });
-    }
-  },
-
-  async delete(req, res) {
-    const registerId = req.params.id;
-    const register = await AnimalBatchRegister.findOne(registerId);
-
-    if (!register) {
-      return res.status(404).json({ error: true, message: 'Not found!' });
-    } else {
-      await AnimalBatchRegister.deleteRegister(registerId);
-      return res
-        .status(200)
-        .json({ error: false, message: 'Register deleted!' });
-    }
-  },
+    return res.status(400).json({
+      deleted: false,
+      message: "Entidade não encontrada.",
+    });
+  } catch (error) {
+    handleCatchedError(res, error.message);
+  }
 };

@@ -1,65 +1,64 @@
-const Person = require("../models/Person");
+const { pessoa } = require("../models");
+const { handleCatchedError } = require("../utils");
 
-module.exports = {
-  async index(req, res) {
-    let results = await Person.findAll();
-    const people = results.rows;
+exports.get = async (req, res, next) => {
+  try {
+    const pessoas = await pessoa.findAll();
+    console.log(pessoas);
+    return res.json(pessoas);
+  } catch (error) {
+    res.status(500).json(error.message);
+  }
+};
 
-    if (people == 0) {
-      return res.status(406).json({ error: true, message: "empty table" });
-    } else {
-      return res.json(people);
+exports.findOne = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const aPessoa = await pessoa.findAll({
+      where: {
+        id: id,
+      },
+    });
+    return res.json(aPessoa);
+  } catch (error) {
+    res.status(500).json(error.message);
+  }
+};
+
+exports.post = async (req, res, next) => {
+  try {
+    const aPessoa = await pessoa.create(req.body);
+    return res.json(aPessoa);
+  } catch (error) {
+    handleCatchedError(res, error.message, 400);
+  }
+};
+
+exports.put = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    await pessoa.update({ ...req.body }, { where: { id } });
+    return res.json({ updated: true });
+  } catch (error) {
+    handleCatchedError(res, error.message, 400);
+  }
+};
+
+exports.delete = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const aPessoa = await pessoa.findByPk(id);
+
+    if (aPessoa) {
+      aPessoa.destroy();
+      return res.json({ deleted: true });
     }
-  },
 
-  async find(req, res) {
-    const personId = req.params.id;
-    const person = await Person.findOne(personId);
-
-    if (person == 0) {
-      return res.status(406).json({ error: true, message: "empty" });
-    } else {
-      return res.json(person);
-    }
-  },
-
-  async post(req, res) {
-    const data = req.body;
-    await Person.createPerson(data);
-    return res.status(201).json(data);
-  },
-
-  async put(req, res) {
-    const personId = req.params.id;
-    const person = await Person.findOne(personId);
-    const data = req.body;
-
-    if (!person) {
-      return res.status(404).json({ error: true, message: "Not found" });
-    } else {
-      await Person.updatePerson({
-        id: personId,
-        no_pessoa: data.no_pessoa,
-        no_email: data.no_email,
-        endereco: data.endereco,
-        sexo: data.sexo,
-        ic_ativo: data.ic_ativo,
-      });
-      return res.status(202).json({ error: false, message: "updated!" });
-    }
-  },
-
-  async delete(req, res) {
-    const personId = req.params.id;
-    const person = await Person.findOne(personId);
-
-    if (!person) {
-      return res.status(404).json({ error: true, message: "Not found!" });
-    } else {
-      await Person.deletePerson(personId);
-      return res
-        .status(200)
-        .json({ error: false, message: "Register deleted!" });
-    }
-  },
+    return res.status(400).json({
+      deleted: false,
+      message: "Entidade não encontrada.",
+    });
+  } catch (error) {
+    handleCatchedError(res, error.message);
+  }
 };

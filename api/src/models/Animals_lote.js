@@ -1,5 +1,5 @@
 module.exports = (sequelize, DataTypes) => {
-  const batch = sequelize.define("animal_lote", {
+  const animals_lote = sequelize.define("animals_lote", {
     id: {
       type: DataTypes.INTEGER,
       primaryKey: true,
@@ -15,9 +15,9 @@ module.exports = (sequelize, DataTypes) => {
     },
   });
 
-  batch.associate = (models) => {
-    batch.hasMany(models.animalBatchRegister, { foreignKey: "fk_id_lote" });
+  animals_lote.associate = (models) => {
+    animals_lote.hasMany(models.animals_x_lote, { foreignKey: "fk_id_lote" });
   };
 
-  return batch;
+  return animals_lote;
 };

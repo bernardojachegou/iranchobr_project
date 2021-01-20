@@ -1,62 +1,63 @@
-const Batch = require('../models/Batch');
+const { animals_lote } = require("../models");
+const { handleCatchedError } = require("../utils");
 
-module.exports = {
-  async index(req, res) {
-    let results = await Batch.findAll();
-    const batches = results.rows;
+exports.get = async (req, res, next) => {
+  try {
+    const animals = await animals_lote.findAll();
+    return res.json(animals);
+  } catch (error) {
+    res.status(500).json(error.message);
+  }
+};
 
-    if (batches == 0) {
-      return res.status(406).json({ error: true, message: 'empty table' });
-    } else {
-      return res.json(batches);
+exports.findOne = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const aLote = await animals_lote.findAll({
+      where: {
+        id: id,
+      },
+    });
+    return res.json(aLote);
+  } catch (error) {
+    res.status(500).json(error.message);
+  }
+};
+
+exports.post = async (req, res, next) => {
+  try {
+    const oAnimals_lote = await animals_lote.create(req.body);
+    return res.json(oAnimals_lote);
+  } catch (error) {
+    handleCatchedError(res, error.message, 400);
+  }
+};
+
+exports.put = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    await animals_lote.update({ ...req.body }, { where: { id } });
+    return res.json({ updated: true });
+  } catch (error) {
+    handleCatchedError(res, error.message, 400);
+  }
+};
+
+exports.delete = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const oAnimals_lote = await animals_lote.findByPk(id);
+
+    if (oAnimals_lote) {
+      oAnimals_lote.destroy();
+      return res.json({ deleted: true });
     }
-  },
 
-  async find(req, res) {
-    const batchId = req.params.id;
-    const batch = await Batch.findOne(batchId);
-
-    if (batch == 0) {
-      return res.status(406).json({ error: true, message: 'empty' });
-    } else {
-      return res.json(batch);
-    }
-  },
-
-  async post(req, res) {
-    const data = req.body;
-    await Batch.createBatch(data);
-    return res.status(201).json(data);
-  },
-
-  async put(req, res) {
-    const batchId = req.params.id;
-    const batch = await Batch.findOne(batchId);
-    const data = req.body;
-
-    if (!batch) {
-      return res.status(404).json({ error: true, message: 'Not found' });
-    } else {
-      await Batch.updateBatch({
-        id: batchId,
-        no_lote: data.no_lote,
-        ds_lote: data.ds_lote,
-      });
-      return res.status(202).json({ error: false, message: 'updated!' });
-    }
-  },
-
-  async delete(req, res) {
-    const batchId = req.params.id;
-    const batch = await Batch.findOne(batchId);
-
-    if (!batch) {
-      return res.status(404).json({ error: true, message: 'Not found!' });
-    } else {
-      await Batch.deleteBatch(batchId);
-      return res
-        .status(200)
-        .json({ error: false, message: 'Register deleted!' });
-    }
-  },
+    return res.status(400).json({
+      deleted: false,
+      message: "Entidade não encontrada.",
+    });
+  } catch (error) {
+    handleCatchedError(res, error.message);
+  }
 };

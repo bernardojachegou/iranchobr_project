@@ -1,9 +1,12 @@
-const animal = require('../controllers/animalController');
+const controller = require("../controllers/animalController");
+
+const entity = "/animals";
 
 module.exports = (routes) => {
-  routes.get('/animals', animal.index);
-  routes.post('/animals', animal.post);
-  routes.get('/animals/:id', animal.find);
-  routes.put('/animals/:id', animal.put);
-  routes.delete('/animals/:id', animal.delete);
+  routes
+    .get(`${entity}`, controller.get)
+    .get(`${entity}/:id`, controller.findOne)
+    .post(`${entity}`, controller.post)
+    .put(`${entity}/:id`, controller.put)
+    .delete(`${entity}/:id`, controller.delete);
 };
