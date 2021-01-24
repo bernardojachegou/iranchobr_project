@@ -60,7 +60,37 @@ exports.post = async (req, res, next) => {
 exports.put = async (req, res, next) => {
   try {
     const { id } = req.params;
-    await pessoa.update({ ...req.body }, { where: { id } });
+    const aPessoa = await pessoa.findByPk(id);
+
+    if (!aPessoa) {
+      return res.status(400).json({
+        message: "Person not found!",
+      });
+    }
+
+    const { no_pessoa, no_email, endereco, sexo, ic_ativo } = req.body;
+
+    const data = {
+      no_pessoa,
+      no_email,
+      endereco,
+      sexo,
+      ic_ativo,
+    };
+
+    const schema = Yup.object().shape({
+      no_pessoa: Yup.string().required().min(5),
+      no_email: Yup.string().required(),
+      endereco: Yup.string().required(),
+      sexo: Yup.string().required(),
+      ic_ativo: Yup.boolean().required(),
+    });
+
+    await schema.validate(data, {
+      abortEarly: false,
+    });
+
+    await pessoa.update(data, { where: { id } });
     return res.json({ updated: true });
   } catch (error) {
     handleCatchedError(res, error.message, 400);
