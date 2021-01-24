@@ -2,46 +2,41 @@
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    return queryInterface.createTable("animals", {
+    return queryInterface.createTable("animais_x_lotes", {
       id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
         allowNull: false,
         autoIncrement: true,
       },
-      fk_id_pessoa: {
+      fk_id_animal: {
         type: Sequelize.INTEGER,
-        allowNull: false,
+        allowNull: true, //Just in development;
         references: {
-          model: "pessoa",
+          model: "animais",
           key: "id",
         },
         onUpdate: "cascade",
         onDelete: "cascade",
       },
-      id_fazenda: {
+      fk_id_lote: {
         type: Sequelize.INTEGER,
-        allowNull: false,
+        allowNull: true, //Just in development;
       },
-      no_animal: {
-        type: Sequelize.STRING,
+      dt_entrada: {
         allowNull: false,
+        type: Sequelize.DATE,
       },
-      no_raca: {
-        type: Sequelize.STRING,
+      dt_saida: {
         allowNull: false,
+        type: Sequelize.DATE,
       },
-      sexo: {
-        type: Sequelize.STRING(1),
+      dt_ultima_movimentacao: {
         allowNull: false,
+        type: Sequelize.DATE,
       },
-      vr_peso: {
-        type: Sequelize.DOUBLE,
-        allowNull: false,
-      },
-      dt_nascimento: {
-        type: Sequelize.DATEONLY,
-        allowNull: false,
+      ic_bezerro: {
+        type: Sequelize.INTEGER, //Why's that?
       },
       createdAt: {
         type: Sequelize.DATE,
@@ -55,6 +50,6 @@ module.exports = {
   },
 
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable("animals");
+    await queryInterface.dropTable("animais_x_lotes");
   },
 };

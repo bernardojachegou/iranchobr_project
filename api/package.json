@@ -7,8 +7,9 @@
     "start": "nodemon src/server.js",
     "do:seeds": "npx sequelize-cli db:seed:all",
     "undo:seeds": "npx sequelize-cli db:seed:undo:all",
-    "do:tables": "npx sequelize-cli db:migrate",
-    "undo:tables": "db:migrate:undo:all"
+    "do:migrations": "npx sequelize-cli db:migrate",
+    "undo:migrations": "npx sequelize-cli db:migrate:undo:all",
+    "generate:migration": "npx sequelize-cli migration:generate --name migration-skeleton"
   },
   "keywords": [],
   "author": "",

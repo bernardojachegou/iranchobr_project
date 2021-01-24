@@ -1,4 +1,5 @@
 "use strict";
+const { date } = require("../../src/utils/index");
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {

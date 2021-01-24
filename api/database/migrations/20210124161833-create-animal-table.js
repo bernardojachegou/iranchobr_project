@@ -2,46 +2,52 @@
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    return queryInterface.createTable("animal_x_lote", {
+    return queryInterface.createTable("animais", {
       id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
         allowNull: false,
         autoIncrement: true,
       },
-      fk_id_animal: {
+      fk_id_pessoa: {
         type: Sequelize.INTEGER,
-        allowNull: false,
+        allowNull: true, //Just in development;
         references: {
-          model: "animal",
+          model: "pessoas",
           key: "id",
         },
         onUpdate: "cascade",
         onDelete: "cascade",
       },
-      fk_id_lote: {
+      id_fazenda: {
         type: Sequelize.INTEGER,
-        allowNull: false,
+        allowNull: true, //Just indevelopment;
         references: {
-          model: "animal_lote",
+          model: "animais_lotes",
           key: "id",
         },
         onUpdate: "cascade",
         onDelete: "cascade",
       },
-      dt_entrada: {
+      no_animal: {
+        type: Sequelize.STRING,
         allowNull: false,
-        type: Sequelize.DATE,
       },
-      dt_saida: {
-        type: Sequelize.DATE,
-      },
-      dt_ultima_movimentacao: {
+      no_raca: {
+        type: Sequelize.STRING,
         allowNull: false,
-        type: Sequelize.DATE,
       },
-      ic_bezerro: {
-        type: Sequelize.INTEGER,
+      sexo: {
+        type: Sequelize.STRING(1),
+        allowNull: false,
+      },
+      vr_peso: {
+        type: Sequelize.DOUBLE,
+        allowNull: false,
+      },
+      dt_nascimento: {
+        type: Sequelize.DATEONLY,
+        allowNull: false,
       },
       createdAt: {
         type: Sequelize.DATE,
@@ -55,6 +61,6 @@ module.exports = {
   },
 
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable("animal_x_lote");
+    await queryInterface.dropTable("animais");
   },
 };
