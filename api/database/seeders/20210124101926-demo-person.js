@@ -1,4 +1,3 @@
-"use strict";
 const { date } = require("../../src/utils/index");
 
 module.exports = {

@@ -1,11 +1,10 @@
-"use strict";
 const { date } = require("../../src/utils/index");
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    return queryInterface.bulkInsert("animals", [
+    return queryInterface.bulkInsert("animais", [
       {
-        fk_id_pessoa: 1,
+        fk_id_pessoa: null,
         id_fazenda: 1,
         no_animal: "Boris",
         no_raca: "Nelore",
@@ -19,6 +18,6 @@ module.exports = {
   },
 
   down: async (queryInterface, Sequelize) => {
-    return queryInterface.bulkDelete("animals", null, {});
+    return queryInterface.bulkDelete("animais", null, {});
   },
 };
