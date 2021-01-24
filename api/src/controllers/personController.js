@@ -39,10 +39,10 @@ exports.post = async (req, res, next) => {
     };
 
     const schema = Yup.object().shape({
-      no_pessoa: Yup.string().required().min(5),
+      no_pessoa: Yup.string().required().min(6),
       no_email: Yup.string().required(),
-      endereco: Yup.string().required(),
-      sexo: Yup.string().required(),
+      endereco: Yup.string().required().min(6),
+      sexo: Yup.string().required().max(1),
       ic_ativo: Yup.boolean().required(),
     });
 
@@ -79,9 +79,9 @@ exports.put = async (req, res, next) => {
     };
 
     const schema = Yup.object().shape({
-      no_pessoa: Yup.string().required().min(5),
+      no_pessoa: Yup.string().required().min(6),
       no_email: Yup.string().required(),
-      endereco: Yup.string().required(),
+      endereco: Yup.string().required().min(6),
       sexo: Yup.string().required(),
       ic_ativo: Yup.boolean().required(),
     });
