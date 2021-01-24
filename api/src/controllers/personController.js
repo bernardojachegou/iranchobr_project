@@ -1,5 +1,6 @@
 const { pessoa } = require("../models");
 const { handleCatchedError } = require("../utils");
+const Yup = require("yup");
 
 exports.get = async (req, res, next) => {
   try {
@@ -27,7 +28,29 @@ exports.findOne = async (req, res, next) => {
 
 exports.post = async (req, res, next) => {
   try {
-    const aPessoa = await pessoa.create(req.body);
+    const { no_pessoa, no_email, endereco, sexo, ic_ativo } = req.body;
+
+    const data = {
+      no_pessoa,
+      no_email,
+      endereco,
+      sexo,
+      ic_ativo,
+    };
+
+    const schema = Yup.object().shape({
+      no_pessoa: Yup.string().required().min(5),
+      no_email: Yup.string().required(),
+      endereco: Yup.string().required(),
+      sexo: Yup.string().required(),
+      ic_ativo: Yup.boolean().required(),
+    });
+
+    await schema.validate(data, {
+      abortEarly: false,
+    });
+
+    const aPessoa = await pessoa.create(data);
     return res.json(aPessoa);
   } catch (error) {
     handleCatchedError(res, error.message, 400);
