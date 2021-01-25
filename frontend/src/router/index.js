@@ -1,12 +1,6 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import Home from "../pages/PageHome";
-import CreateAnimal from "../pages/pageAnimal/CreateAnimal";
-import ListAnimal from "../pages/pageAnimal/ListAnimal";
-import CreatePerson from "../pages/pagePerson/CreatePerson";
-import ListPerson from "../pages/pagePerson/ListPerson";
-import CreateBatch from "../pages/pageBatch/CreateBatch";
-import ListBatch from "../pages/pageBatch/ListBatch";
+import Home from "@/pages/PageHome";
 
 Vue.use(VueRouter);
 
@@ -19,32 +13,65 @@ const routes = [
   {
     path: "/animals/create",
     name: "CreateAnimal",
-    component: CreateAnimal,
+    component: () =>
+      import(
+        /* webpackChunkName: "CreateAnimal"
+         */ "@/pages/pageAnimal/CreateAnimal"
+      ),
   },
   {
     path: "/animals/list",
     name: "ListAnimal",
-    component: ListAnimal,
+    component: () =>
+      import(
+        /* webpackChunkName: "ListAnimal"
+         */ "@/pages/pageAnimal/ListAnimal"
+      ),
   },
   {
     path: "/people/create",
     name: "CreatePerson",
-    component: CreatePerson,
+    component: () =>
+      import(
+        /* webpackChunkName: "CreatePerson"
+         */ "@/pages/pagePerson/CreatePerson"
+      ),
   },
   {
     path: "/people/list",
     name: "ListPerson",
-    component: ListPerson,
+    component: () =>
+      import(
+        /* webpackChunkName: "ListPerson"
+         */ "@/pages/pagePerson/ListPerson"
+      ),
   },
   {
     path: "/batches/create",
     name: "CreateBatch",
-    component: CreateBatch,
+    component: () =>
+      import(
+        /* webpackChunkName: "CreateBatch"
+         */ "@/pages/pageBatch/CreateBatch"
+      ),
   },
   {
     path: "/batches/list",
     name: "ListBatch",
-    component: ListBatch,
+    component: () =>
+      import(
+        /* webpackChunkName: "ListBatch"
+         */ "@/pages/pageBatch/ListBatch"
+      ),
+  },
+  {
+    path: "/registers/create",
+    name: "CreateRegister",
+    component: () =>
+      import(
+        /* webpackChunkName: "ListBatch"
+         */ "@/pages/pageRegister/CreateRegister"
+      ),
   },
 ];
 
