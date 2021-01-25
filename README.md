@@ -13,7 +13,6 @@ This project was developed using:
 - [Sequelize](https://sequelize.org/)
 - [Express](https://expressjs.com/)
 - [Yup](https://github.com/jquense/yup)
-
 - [Vue](https://vuejs.org/)
 - [Bootstrap](https://bootstrap-vue.org/)
 - [Axios](https://github.com/axios/axios)
