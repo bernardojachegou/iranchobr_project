@@ -1,6 +1,6 @@
-const controller = require("../controllers/animalBatchRegisterController");
+const controller = require("../controllers/registerController");
 
-const entity = "/animalRegisters";
+const entity = "/registers";
 
 module.exports = (routes) => {
   routes
