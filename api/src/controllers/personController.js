@@ -1,12 +1,12 @@
-const { pessoa } = require("../models");
+const { person } = require("../models");
 const { handleCatchedError } = require("../utils");
 const Yup = require("yup");
 
 exports.get = async (req, res, next) => {
   try {
-    const pessoas = await pessoa.findAll();
-    console.log(pessoas);
-    return res.json(pessoas);
+    const people = await person.findAll();
+    console.log(people);
+    return res.json(people);
   } catch (error) {
     res.status(500).json(error.message);
   }
@@ -15,12 +15,12 @@ exports.get = async (req, res, next) => {
 exports.findOne = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const aPessoa = await pessoa.findAll({
+    const aPerson = await person.findAll({
       where: {
         id: id,
       },
     });
-    return res.json(aPessoa);
+    return res.json(aPerson);
   } catch (error) {
     res.status(500).json(error.message);
   }
@@ -50,8 +50,8 @@ exports.post = async (req, res, next) => {
       abortEarly: false,
     });
 
-    const aPessoa = await pessoa.create(data);
-    return res.json(aPessoa);
+    const aPerson = await person.create(data);
+    return res.json(aPerson);
   } catch (error) {
     handleCatchedError(res, error.message, 400);
   }
@@ -60,9 +60,9 @@ exports.post = async (req, res, next) => {
 exports.put = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const aPessoa = await pessoa.findByPk(id);
+    const aPerson = await person.findByPk(id);
 
-    if (!aPessoa) {
+    if (!aPerson) {
       return res.status(400).json({
         message: "Person not found!",
       });
@@ -90,7 +90,7 @@ exports.put = async (req, res, next) => {
       abortEarly: false,
     });
 
-    await pessoa.update(data, { where: { id } });
+    await person.update(data, { where: { id } });
     return res.json({ updated: true });
   } catch (error) {
     handleCatchedError(res, error.message, 400);
@@ -100,10 +100,10 @@ exports.put = async (req, res, next) => {
 exports.delete = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const aPessoa = await pessoa.findByPk(id);
+    const aPerson = await person.findByPk(id);
 
-    if (aPessoa) {
-      aPessoa.destroy();
+    if (aPerson) {
+      aPerson.destroy();
       return res.json({ deleted: true });
     }
 

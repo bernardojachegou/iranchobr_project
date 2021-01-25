@@ -1,5 +1,6 @@
 const { animal } = require("../models");
-const { handleCatchedError } = require("../utils");
+const { handleCatchedError, date } = require("../utils");
+const Yup = require("yup");
 
 exports.get = async (req, res, next) => {
   try {
@@ -26,8 +27,42 @@ exports.findOne = async (req, res, next) => {
 
 exports.post = async (req, res, next) => {
   try {
-    const oAnimal = await animal.create(req.body);
-    return res.json(oAnimal);
+    const {
+      fk_id_pessoa,
+      id_fazenda,
+      no_animal,
+      no_raca,
+      sexo,
+      vr_peso,
+      dt_nascimento,
+    } = req.body;
+
+    const data = {
+      fk_id_pessoa,
+      id_fazenda,
+      no_animal,
+      no_raca,
+      sexo,
+      vr_peso,
+      dt_nascimento,
+    };
+
+    const schema = Yup.object().shape({
+      fk_id_pessoa: Yup.number().required(),
+      id_fazenda: Yup.number().required(),
+      no_animal: Yup.string().required(),
+      no_raca: Yup.string().required(),
+      sexo: Yup.string().required(),
+      vr_peso: Yup.number().required(),
+      dt_nascimento: Yup.date().required(),
+    });
+
+    await schema.validate(data, {
+      abortEarly: false,
+    });
+
+    const aAnimal = await animal.create(req.body);
+    return res.json(aAnimal);
   } catch (error) {
     handleCatchedError(res, error.message, 400);
   }
@@ -36,8 +71,49 @@ exports.post = async (req, res, next) => {
 exports.put = async (req, res, next) => {
   try {
     const { id } = req.params;
-    // Add conditional to handle not found data;
-    await animal.update({ ...req.body }, { where: { id } });
+    const aAnimal = await animal.findByPk(id);
+
+    if (!aAnimal) {
+      return res.status(400).json({
+        message: "Animal not found!",
+      });
+    }
+
+    const {
+      fk_id_pessoa,
+      id_fazenda,
+      no_animal,
+      no_raca,
+      sexo,
+      vr_peso,
+      dt_nascimento,
+    } = req.body;
+
+    const data = {
+      fk_id_pessoa,
+      id_fazenda,
+      no_animal,
+      no_raca,
+      sexo,
+      vr_peso,
+      dt_nascimento,
+    };
+
+    const schema = Yup.object().shape({
+      fk_id_pessoa: Yup.number().required(),
+      id_fazenda: Yup.number().required(),
+      no_animal: Yup.string().required(),
+      no_raca: Yup.string().required(),
+      sexo: Yup.string().required(),
+      vr_peso: Yup.number().required(),
+      dt_nascimento: Yup.date().required(),
+    });
+
+    await schema.validate(data, {
+      abortEarly: false,
+    });
+
+    await animal.update(data, { where: { id } });
     return res.json({ updated: true });
   } catch (error) {
     handleCatchedError(res, error.message, 400);
@@ -47,10 +123,10 @@ exports.put = async (req, res, next) => {
 exports.delete = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const oAnimal = await animal.findByPk(id);
+    const aAnimal = await animal.findByPk(id);
 
-    if (oAnimal) {
-      oAnimal.destroy();
+    if (aAnimal) {
+      aAnimal.destroy();
       return res.json({ deleted: true });
     }
 

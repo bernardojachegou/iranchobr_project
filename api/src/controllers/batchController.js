@@ -1,11 +1,11 @@
-const { animals_lote } = require("../models");
+const { batch } = require("../models");
 const { handleCatchedError } = require("../utils");
 const Yup = require("yup");
 
 exports.get = async (req, res, next) => {
   try {
-    const animals = await animals_lote.findAll();
-    return res.json(animals);
+    const batches = await batch.findAll();
+    return res.json(batches);
   } catch (error) {
     res.status(500).json(error.message);
   }
@@ -14,12 +14,12 @@ exports.get = async (req, res, next) => {
 exports.findOne = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const aLote = await animals_lote.findAll({
+    const aBatch = await batch.findAll({
       where: {
         id: id,
       },
     });
-    return res.json(aLote);
+    return res.json(aBatch);
   } catch (error) {
     res.status(500).json(error.message);
   }
@@ -43,7 +43,7 @@ exports.post = async (req, res, next) => {
       abortEarly: false,
     });
 
-    const aLote = await animals_lote.create(req.body);
+    const aLote = await batch.create(req.body);
     return res.json(aLote);
   } catch (error) {
     handleCatchedError(res, error.message, 400);
@@ -53,9 +53,9 @@ exports.post = async (req, res, next) => {
 exports.put = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const aLote = await animals_lote.findByPk(id);
+    const aBatch = await batch.findByPk(id);
 
-    if (!aLote) {
+    if (!aBatch) {
       return res.status(400).json({
         message: "Batch not found!",
       });
@@ -77,7 +77,7 @@ exports.put = async (req, res, next) => {
       abortEarly: false,
     });
 
-    await animals_lote.update(data, { where: { id } });
+    await batch.update(data, { where: { id } });
     return res.json({ updated: true });
   } catch (error) {
     handleCatchedError(res, error.message, 400);
@@ -87,10 +87,10 @@ exports.put = async (req, res, next) => {
 exports.delete = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const oAnimals_lote = await animals_lote.findByPk(id);
+    const aBatch = await batch.findByPk(id);
 
-    if (oAnimals_lote) {
-      oAnimals_lote.destroy();
+    if (aBatch) {
+      aBatch.destroy();
       return res.json({ deleted: true });
     }
 
