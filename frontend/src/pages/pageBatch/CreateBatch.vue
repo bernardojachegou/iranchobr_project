@@ -70,6 +70,7 @@ export default {
       name: "",
       description: "",
     },
+    dismissCountDown: 0,
   }),
   methods: {
     addBatch() {

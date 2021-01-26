@@ -5,7 +5,6 @@ const Yup = require("yup");
 exports.get = async (req, res, next) => {
   try {
     const people = await person.findAll();
-    console.log(people);
     return res.json(people);
   } catch (error) {
     res.status(500).json(error.message);
