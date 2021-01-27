@@ -39,7 +39,7 @@ export default {
     selectedOption(option) {
       this.selected = option.text;
 
-      api.get("/animalRegisters").then((value) => {
+      api.get("/registers").then((value) => {
         const filterAnimals = value.data.filter((animal) => {
           if (animal.fk_id_animal === option.value.id) {
             return animal;

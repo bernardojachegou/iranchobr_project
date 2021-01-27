@@ -7,7 +7,15 @@
       </div>
       <div class="input-box">
         <div>
-          <b-table striped hover :items="batches" :fields="fields">
+          <b-table
+            striped
+            hover
+            bordered
+            head-variant="dark"
+            class="text-center"
+            :items="batches"
+            :fields="fields"
+          >
             <template #cell(Opções)="row">
               <DeleteButton :row="row" @delete="deleteItem" />
             </template>

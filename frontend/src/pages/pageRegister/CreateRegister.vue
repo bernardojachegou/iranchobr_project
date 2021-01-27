@@ -117,7 +117,7 @@ export default {
         fk_id_lote: this.batch,
         dt_entrada: this.form.input_date,
         dt_saida: this.form.output_date,
-        ic_bezerro: parseInt(this.form.calf_id),
+        ic_bezerro: this.form.calf_id,
       };
 
       console.log(form);

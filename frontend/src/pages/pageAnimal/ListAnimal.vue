@@ -7,7 +7,15 @@
       </div>
       <div class="input-box">
         <div>
-          <b-table striped hover :items="animals" :fields="fields">
+          <b-table
+            striped
+            hover
+            bordered
+            head-variant="dark"
+            class="text-center"
+            :items="animals"
+            :fields="fields"
+          >
             <template #cell(Opções)="row">
               <DeleteButton :row="row" @delete="deleteItem" />
             </template>
@@ -29,7 +37,23 @@ export default {
   },
   data: () => ({
     animals: Array,
-    fields: ["nome", "raça", "peso", "Opções"],
+    fields: [
+      {
+        key: "nome_do_animal",
+        sortable: true,
+      },
+      {
+        key: "raça",
+        sortable: true,
+      },
+      {
+        key: "peso",
+        sortable: true,
+      },
+      {
+        key: "Opções",
+      },
+    ],
   }),
   created() {
     this.getList();
@@ -47,9 +71,9 @@ export default {
       api.get("/animals").then((value) => {
         this.animals = value.data.map((animals) => ({
           id: animals.id,
-          nome: animals.no_animal,
+          nome_do_animal: animals.no_animal,
           raça: animals.no_raca,
-          peso: animals.vr_peso,
+          peso: `${animals.vr_peso}kg`,
         }));
       });
     },
