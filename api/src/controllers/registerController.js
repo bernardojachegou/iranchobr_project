@@ -15,6 +15,8 @@ exports.get = async (req, res, next) => {
           required: true,
         },
       ],
+      limit: 5,
+      offset: 2,
     });
     return res.json(registers);
   } catch (error) {

@@ -15,11 +15,21 @@
             class="text-center"
             :items="batches"
             :fields="fields"
+            :per-page="perPage"
+            :current-page="currentPage"
           >
             <template #cell(Opções)="row">
               <DeleteButton :row="row" @delete="deleteItem" />
             </template>
           </b-table>
+
+          <b-pagination
+            v-model="currentPage"
+            :total-rows="batches"
+            :per-page="perPage"
+            aria-controls="my-table"
+          >
+          </b-pagination>
         </div>
       </div>
     </div>
@@ -36,6 +46,8 @@ export default {
     DeleteButton,
   },
   data: () => ({
+    perPage: 5,
+    currentPage: 1,
     batches: Array,
     fields: [
       {
@@ -51,6 +63,11 @@ export default {
       },
     ],
   }),
+  computed: {
+    batches() {
+      return this.items.length;
+    },
+  },
   created() {
     this.getList();
   },
