@@ -1,6 +1,8 @@
 <h1 align="center">
-    Project Iranchobr
+    <img src="https://imgur.com/gAMmZ6i.png"/>
 </h1>
+
+
 
 <p>Project created during a challenge to handle a job opportunity into a brazilian startup.</p>
 
@@ -64,16 +66,16 @@ http://localhost:5000/registers
 
 ```bash
 # Clone the repository
-$ 
+$ https://github.com/bernardojachegou/iranchobr_project.git
 
 # Open the repository
-$ 
+$ cd iranchobr_project/frontend
 
 # Install the dependencies
-$ 
+$ npm install
 
 # Start the server
-$ 
+$ npm start
 
 # running at port: 3000
 ```
