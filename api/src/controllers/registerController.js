@@ -1,10 +1,21 @@
-const { register, batch } = require("../models");
+const { register, batch, animal } = require("../models");
 const { handleCatchedError, date } = require("../utils");
 const Yup = require("yup");
 
 exports.get = async (req, res, next) => {
   try {
-    const registers = await register.findAll();
+    const registers = await register.findAll({
+      include: [
+        {
+          model: batch,
+          required: true,
+        },
+        {
+          model: animal,
+          required: true,
+        },
+      ],
+    });
     return res.json(registers);
   } catch (error) {
     res.status(500).json(error.message);
@@ -29,7 +40,16 @@ exports.getByAnimalId = async (req, res, next) => {
   try {
     const { id } = req.params;
     const aRegister = await register.findAll({
-      include: [{ model: batch, required: true }],
+      include: [
+        {
+          model: batch,
+          required: true,
+        },
+        {
+          model: animal,
+          required: true,
+        },
+      ],
       where: {
         fk_id_animal: id,
       },

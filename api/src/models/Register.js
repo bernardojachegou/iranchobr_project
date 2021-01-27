@@ -44,6 +44,7 @@ module.exports = (sequelize, DataTypes) => {
 
   register.associate = (models) => {
     register.belongsTo(models.batch, { foreignKey: "fk_id_lote" });
+    register.belongsTo(models.animal, { foreignKey: "fk_id_animal" });
   };
 
   return register;

@@ -37,7 +37,19 @@ export default {
   },
   data: () => ({
     batches: Array,
-    fields: ["nome", "descrição", "Opções"],
+    fields: [
+      {
+        key: "nome",
+        sortable: true,
+      },
+      {
+        key: "descrição",
+        sortable: true,
+      },
+      {
+        key: "Opções",
+      },
+    ],
   }),
   created() {
     this.getList();

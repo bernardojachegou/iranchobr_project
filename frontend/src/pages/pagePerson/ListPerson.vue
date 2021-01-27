@@ -37,7 +37,19 @@ export default {
   },
   data: () => ({
     people: Array,
-    fields: ["nome", "endereço", "Opções"],
+    fields: [
+      {
+        key: "nome",
+        sortable: true,
+      },
+      {
+        key: "endereço",
+        sortable: true,
+      },
+      {
+        key: "Opções",
+      },
+    ],
   }),
   created() {
     this.getList();
