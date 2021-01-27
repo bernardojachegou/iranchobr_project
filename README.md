@@ -1,8 +1,10 @@
 <h1 align="center">
-    <img src="https://imgur.com/gAMmZ6i.png"/>
+    Project - Iranchobr
 </h1>
 
-
+<h2 align="center">
+    <img src="https://imgur.com/gAMmZ6i.png"/>
+</h2>
 
 <p>Project created during a challenge to handle a job opportunity into a brazilian startup.</p>
 
