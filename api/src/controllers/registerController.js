@@ -1,24 +1,36 @@
 const { register, batch, animal } = require("../models");
-const { handleCatchedError, date } = require("../utils");
+const {
+  handleCatchedError,
+  date,
+  getPagination,
+  getPagingData,
+} = require("../utils");
 const Yup = require("yup");
 
 exports.get = async (req, res, next) => {
+  // Creating method with pagination;
+  const { page, size } = req.query;
+  const { limit, offset } = getPagination(page, size);
   try {
-    const registers = await register.findAll({
-      include: [
-        {
-          model: batch,
-          required: true,
-        },
-        {
-          model: animal,
-          required: true,
-        },
-      ],
-      limit: 5,
-      offset: 2,
-    });
-    return res.json(registers);
+    await register
+      .findAndCountAll({
+        limit: 8,
+        offset: 40,
+        include: [
+          {
+            model: batch,
+            required: true,
+          },
+          {
+            model: animal,
+            required: true,
+          },
+        ],
+      })
+      .then((data) => {
+        const registers = getPagingData(data, page, limit);
+        res.send(registers);
+      });
   } catch (error) {
     res.status(500).json(error.message);
   }
