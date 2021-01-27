@@ -156,6 +156,8 @@ export default {
         dt_nascimento: this.form.birthdate,
       };
 
+      console.log(form);
+
       api.post("/animals", form).then(
         () => {
           this.form = {

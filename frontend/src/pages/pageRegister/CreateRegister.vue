@@ -45,7 +45,7 @@
               label-cols-sm="3"
               label-align-sm="right"
             >
-              <b-form-input id="entrada" type="date" v-model="form.inputDate">
+              <b-form-input id="entrada" type="date" v-model="form.input_date">
               </b-form-input>
             </b-form-group>
 
@@ -56,18 +56,22 @@
               label-cols-sm="3"
               label-align-sm="right"
             >
-              <b-form-input id="saida" type="date" v-model="form.outputDate">
+              <b-form-input id="saida" type="date" v-model="form.output_date">
               </b-form-input>
             </b-form-group>
 
             <!-- Input -->
             <b-form-group
-              label="IC-bezerro:"
-              label-for="IC-bezerro"
+              label="Bezerro:"
+              label-for="ic_bezerro"
               label-cols-sm="3"
               label-align-sm="right"
             >
-              <b-form-input id="IC-bezerro" type="number" v-model="form.calfId">
+              <b-form-input
+                id="ic_bezerro"
+                type="number"
+                v-model="form.calf_id"
+              >
               </b-form-input>
             </b-form-group>
           </b-form-group>
@@ -100,10 +104,9 @@ export default {
     batch: null,
     batches: [],
     form: {
-      inputDate: "",
-      outputDate: "",
-      lastUpdate: "",
-      calfId: "",
+      input_date: "",
+      output_date: "",
+      calf_id: "",
     },
     dismissCountDown: 0,
   }),
@@ -112,9 +115,9 @@ export default {
       const form = {
         fk_id_animal: this.animal,
         fk_id_lote: this.batch,
-        dt_entrada: this.form.inputDate,
-        dt_saida: this.form.outputDate,
-        ic_bezerro: this.form.calfId,
+        dt_entrada: this.form.input_date,
+        dt_saida: this.form.output_date,
+        ic_bezerro: parseInt(this.form.calf_id),
       };
 
       console.log(form);
@@ -122,10 +125,10 @@ export default {
       api.post("/registers", form).then(
         () => {
           this.form = {
-            inputDate: "",
-            outputDate: "",
+            input_date: "",
+            output_date: "",
             lastUpdate: "",
-            calfId: "",
+            calf_id: "",
           };
           this.dismissCountDown = 3;
         },

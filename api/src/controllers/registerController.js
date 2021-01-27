@@ -71,7 +71,7 @@ exports.post = async (req, res, next) => {
       abortEarly: false,
     });
 
-    const aRegister = await register.create(req.body);
+    const aRegister = await register.create(data, req.body);
     return res.json(aRegister);
   } catch (error) {
     handleCatchedError(res, error.message, 400);
