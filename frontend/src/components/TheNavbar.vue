@@ -3,7 +3,12 @@
     <b-navbar type="dark" variant="dark">
       <b-navbar-nav>
         <b-nav-item>
-          <router-link :to="{ name: 'Home' }">Ícone aqui</router-link>
+          <router-link :to="{ name: 'Home' }">
+            <span class="logo"
+              ><font-awesome-icon icon="hat-cowboy" size="lg" />
+              IRANCHO-BR</span
+            >
+          </router-link>
         </b-nav-item>
 
         <!-- Navbar dropdowns -->

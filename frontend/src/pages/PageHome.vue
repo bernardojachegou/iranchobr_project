@@ -15,15 +15,15 @@
             class="text-center"
             :items="registers"
             :fields="fields"
+            :per-page="perPage"
+            :current-page="currentPage"
           >
-            <!-- First request -->
             <template #cell(animal)="animalName">
-              {{ animalName.value }}
+              {{ animalName.value }} eu
             </template>
             <template #cell(lote)="batchName">
               {{ batchName.value }}
             </template>
-            <!-- Second request -->
             <template #cell(entrada)="inputDate">
               {{ inputDate.value | moment }}
             </template>
@@ -33,11 +33,17 @@
             <template #cell(Última_movimentação)="lastDate">
               {{ lastDate.value | moment }}
             </template>
-
             <template #cell(Opções)="row">
               <DeleteButton :row="row" @delete="deleteItem" />
             </template>
           </b-table>
+          <b-pagination
+            v-model="currentPage"
+            :total-rows="batches"
+            :per-page="perPage"
+            aria-controls="my-table"
+          >
+          </b-pagination>
         </div>
       </div>
     </div>
@@ -62,8 +68,9 @@ export default {
     DeleteButton,
   },
   data: () => ({
+    // perPage: 5,
+    // currentPage: 1,
     registers: Array,
-    animals: Array,
     fields: [
       {
         key: "animal",
@@ -93,8 +100,14 @@ export default {
       },
     ],
   }),
+  computed: {
+    // registers() {
+    //   return this.items.length;
+    // },
+  },
   created() {
     this.getList();
+    console.log(this.getList());
   },
   methods: {
     deleteItem(id) {

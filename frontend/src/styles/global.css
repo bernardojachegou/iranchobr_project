@@ -15,3 +15,7 @@ a:hover {
 .input-box {
   margin: 24px 0;
 }
+
+.logo {
+  font-weight: bold;
+}
