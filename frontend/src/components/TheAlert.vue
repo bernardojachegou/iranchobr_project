@@ -1,5 +1,5 @@
 <template>
-  <b-alert :show="dismissCountDown" dismissible variant="warning">
+  <b-alert :show="dismissCountDown" dismissible variant="success">
     <p>Cadastro realizado com sucesso!</p>
   </b-alert>
 </template>

@@ -14,8 +14,8 @@ exports.get = async (req, res, next) => {
   try {
     await register
       .findAndCountAll({
-        limit: 8,
-        offset: 40,
+        limit,
+        offset,
         include: [
           {
             model: batch,
