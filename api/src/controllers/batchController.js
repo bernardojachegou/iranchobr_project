@@ -1,11 +1,40 @@
 const { batch } = require("../models");
-const { handleCatchedError } = require("../utils");
+const {
+  handleCatchedError,
+  getPagination,
+  getPagingData,
+} = require("../utils");
 const Yup = require("yup");
 
 exports.get = async (req, res, next) => {
   try {
     const batches = await batch.findAll();
-    return res.json(batches);
+
+    if (batches == 0) {
+      return res.status(200).json({
+        message: "The table is empty!",
+      });
+    }
+
+    return res.status(200).json(batches);
+  } catch (error) {
+    res.status(500).json(error.message);
+  }
+};
+
+exports.getAndCount = async (req, res, next) => {
+  const { page, size } = req.query;
+  const { limit, offset } = getPagination(page, size);
+  try {
+    await batch
+      .findAndCountAll({
+        limit,
+        offset,
+      })
+      .then((data) => {
+        const batches = getPagingData(data, page, limit);
+        res.send(batches);
+      });
   } catch (error) {
     res.status(500).json(error.message);
   }
@@ -14,12 +43,15 @@ exports.get = async (req, res, next) => {
 exports.findOne = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const aBatch = await batch.findAll({
-      where: {
-        id: id,
-      },
-    });
-    return res.json(aBatch);
+    const aBatch = await batch.findByPk(id);
+
+    if (!aBatch) {
+      return res.status(400).json({
+        message: "Batch not found!",
+      });
+    }
+
+    return res.status(200).json(aBatch);
   } catch (error) {
     res.status(500).json(error.message);
   }
@@ -43,8 +75,8 @@ exports.post = async (req, res, next) => {
       abortEarly: false,
     });
 
-    const aLote = await batch.create(req.body);
-    return res.json(aLote);
+    const aBatch = await batch.create(req.body);
+    return res.status(200).json(aBatch);
   } catch (error) {
     handleCatchedError(res, error.message, 400);
   }
@@ -78,7 +110,7 @@ exports.put = async (req, res, next) => {
     });
 
     await batch.update(data, { where: { id } });
-    return res.json({ updated: true });
+    return res.status(200).json({ updated: true });
   } catch (error) {
     handleCatchedError(res, error.message, 400);
   }
@@ -89,15 +121,15 @@ exports.delete = async (req, res, next) => {
     const { id } = req.params;
     const aBatch = await batch.findByPk(id);
 
-    if (aBatch) {
-      aBatch.destroy();
-      return res.json({ deleted: true });
+    if (!aBatch) {
+      return res.status(400).json({
+        deleted: false,
+        message: "Couldn't delete: Batch not found!",
+      });
     }
 
-    return res.status(400).json({
-      deleted: false,
-      message: "Entidade não encontrada.",
-    });
+    aBatch.destroy();
+    return res.status(200).json({ deleted: true });
   } catch (error) {
     handleCatchedError(res, error.message);
   }
