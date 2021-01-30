@@ -39,7 +39,7 @@
           </b-table>
           <b-pagination
             v-model="currentPage"
-            :total-rows="batches"
+            :total-rows="totalItems"
             :per-page="perPage"
             aria-controls="my-table"
           >
@@ -68,9 +68,10 @@ export default {
     DeleteButton,
   },
   data: () => ({
-    // perPage: 5,
-    // currentPage: 1,
+    perPage: 8,
+    currentPage: 1,
     registers: Array,
+    totalItems: 0,
     fields: [
       {
         key: "animal",
@@ -100,14 +101,8 @@ export default {
       },
     ],
   }),
-  computed: {
-    // registers() {
-    //   return this.items.length;
-    // },
-  },
   created() {
     this.getList();
-    console.log(this.getList());
   },
   methods: {
     deleteItem(id) {
@@ -121,7 +116,8 @@ export default {
 
     getList() {
       api.get("/registers").then((value) => {
-        this.registers = value.data.map((registers) => ({
+        this.totalItems = value.data.totalItems;
+        this.registers = value.data.registers.map((registers) => ({
           id: registers.id,
           animal: registers.animal.no_animal,
           lote: registers.batch.no_lote,

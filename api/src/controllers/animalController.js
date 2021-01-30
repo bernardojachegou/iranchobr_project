@@ -1,11 +1,40 @@
 const { animal } = require("../models");
-const { handleCatchedError, date } = require("../utils");
+const {
+  handleCatchedError,
+  getPagination,
+  getPagingData,
+} = require("../utils");
 const Yup = require("yup");
 
 exports.get = async (req, res, next) => {
   try {
     const animals = await animal.findAll();
-    return res.json(animals);
+
+    if (animals == 0) {
+      return res.status(200).json({
+        message: "The table is empty!",
+      });
+    }
+
+    return res.status(200).json(animals);
+  } catch (error) {
+    res.status(500).json(error.message);
+  }
+};
+
+exports.getAndCount = async (req, res, next) => {
+  const { page, size } = req.query;
+  const { limit, offset } = getPagination(page, size);
+  try {
+    await animal
+      .findAndCountAll({
+        limit,
+        offset,
+      })
+      .then((data) => {
+        const animals = getPagingData(data, page, limit);
+        res.send(animals);
+      });
   } catch (error) {
     res.status(500).json(error.message);
   }
@@ -14,12 +43,15 @@ exports.get = async (req, res, next) => {
 exports.findOne = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const aAnimal = await animal.findAll({
-      where: {
-        id: id,
-      },
-    });
-    return res.json(aAnimal);
+    const aAnimal = await animal.findByPk(id);
+
+    if (!aAnimal) {
+      return res.status(400).json({
+        message: "Animal not found!",
+      });
+    }
+
+    return res.status(200).json(aAnimal);
   } catch (error) {
     res.status(500).json(error.message);
   }
@@ -62,7 +94,7 @@ exports.post = async (req, res, next) => {
     });
 
     const aAnimal = await animal.create(req.body);
-    return res.json(aAnimal);
+    return res.status(201).json(aAnimal);
   } catch (error) {
     handleCatchedError(res, error.message, 400);
   }
@@ -114,7 +146,7 @@ exports.put = async (req, res, next) => {
     });
 
     await animal.update(data, { where: { id } });
-    return res.json({ updated: true });
+    return res.status(200).json({ updated: true });
   } catch (error) {
     handleCatchedError(res, error.message, 400);
   }
@@ -125,15 +157,15 @@ exports.delete = async (req, res, next) => {
     const { id } = req.params;
     const aAnimal = await animal.findByPk(id);
 
-    if (aAnimal) {
-      aAnimal.destroy();
-      return res.json({ deleted: true });
+    if (!aAnimal) {
+      return res.status(400).json({
+        deleted: false,
+        message: "Couldn't delete: Animal not found!",
+      });
     }
 
-    return res.status(400).json({
-      deleted: false,
-      message: "Entidade não encontrada.",
-    });
+    aAnimal.destroy();
+    return res.status(200).json({ deleted: true });
   } catch (error) {
     handleCatchedError(res, error.message);
   }

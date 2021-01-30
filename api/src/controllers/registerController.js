@@ -8,6 +8,26 @@ const {
 const Yup = require("yup");
 
 exports.get = async (req, res, next) => {
+  try {
+    const registers = await register.findAll({
+      include: [
+        {
+          model: batch,
+          required: true,
+        },
+        {
+          model: animal,
+          required: true,
+        },
+      ],
+    });
+    return res.send(registers);
+  } catch (error) {
+    res.status(500).json(error.message);
+  }
+};
+
+exports.getAndCount = async (req, res, next) => {
   // Creating method with pagination;
   const { page, size } = req.query;
   const { limit, offset } = getPagination(page, size);
@@ -36,19 +56,19 @@ exports.get = async (req, res, next) => {
   }
 };
 
-// exports.findOne = async (req, res, next) => {
-//   try {
-//     const { id } = req.params;
-//     const aRegister = await register.findAll({
-//       where: {
-//         id: id,
-//       },
-//     });
-//     return res.json(aRegister);
-//   } catch (error) {
-//     res.status(500).json(error.message);
-//   }
-// };
+exports.findOne = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const aRegister = await register.findAll({
+      where: {
+        id: id,
+      },
+    });
+    return res.json(aRegister);
+  } catch (error) {
+    res.status(500).json(error.message);
+  }
+};
 
 exports.getByAnimalId = async (req, res, next) => {
   try {
