@@ -61,7 +61,7 @@ exports.post = async (req, res, next) => {
   try {
     const {
       fk_id_pessoa,
-      id_fazenda,
+      no_fazenda,
       no_animal,
       no_raca,
       sexo,
@@ -71,7 +71,7 @@ exports.post = async (req, res, next) => {
 
     const data = {
       fk_id_pessoa,
-      id_fazenda,
+      no_fazenda,
       no_animal,
       no_raca,
       sexo,
@@ -81,7 +81,7 @@ exports.post = async (req, res, next) => {
 
     const schema = Yup.object().shape({
       fk_id_pessoa: Yup.number().required(),
-      id_fazenda: Yup.number().required(),
+      no_fazenda: Yup.string().required(),
       no_animal: Yup.string().required(),
       no_raca: Yup.string().required(),
       sexo: Yup.string().required(),
@@ -113,7 +113,7 @@ exports.put = async (req, res, next) => {
 
     const {
       fk_id_pessoa,
-      id_fazenda,
+      no_fazenda,
       no_animal,
       no_raca,
       sexo,
@@ -123,7 +123,7 @@ exports.put = async (req, res, next) => {
 
     const data = {
       fk_id_pessoa,
-      id_fazenda,
+      no_fazenda,
       no_animal,
       no_raca,
       sexo,
@@ -133,7 +133,7 @@ exports.put = async (req, res, next) => {
 
     const schema = Yup.object().shape({
       fk_id_pessoa: Yup.number().required(),
-      id_fazenda: Yup.number().required(),
+      no_fazenda: Yup.string().required(),
       no_animal: Yup.string().required(),
       no_raca: Yup.string().required(),
       sexo: Yup.string().required(),

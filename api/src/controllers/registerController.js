@@ -118,7 +118,7 @@ exports.post = async (req, res, next) => {
       fk_id_lote: Yup.number().required(),
       dt_entrada: Yup.date().required(),
       dt_saida: Yup.date().required(),
-      ic_bezerro: Yup.number().required(),
+      ic_bezerro: Yup.boolean().required(),
     });
 
     await schema.validate(data, {
@@ -165,7 +165,7 @@ exports.put = async (req, res, next) => {
       fk_id_lote: Yup.number().required(),
       dt_entrada: Yup.date().required(),
       dt_saida: Yup.date().required(),
-      ic_bezerro: Yup.number().required(),
+      ic_bezerro: Yup.boolean().required(),
     });
 
     await schema.validate(data, {
