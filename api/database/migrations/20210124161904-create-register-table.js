@@ -11,7 +11,7 @@ module.exports = {
       },
       fk_id_animal: {
         type: Sequelize.INTEGER,
-        allowNull: true, //Just in development;
+        allowNull: false,
         references: {
           model: "animais",
           key: "id",
@@ -21,7 +21,13 @@ module.exports = {
       },
       fk_id_lote: {
         type: Sequelize.INTEGER,
-        allowNull: true, //Just in development;
+        allowNull: false,
+        references: {
+          model: "animais_lotes",
+          key: "id",
+        },
+        onUpdate: "cascade",
+        onDelete: "cascade",
       },
       dt_entrada: {
         allowNull: false,
@@ -36,7 +42,9 @@ module.exports = {
         type: Sequelize.DATE,
       },
       ic_bezerro: {
-        type: Sequelize.INTEGER, //Why's that?
+        allowNull: false,
+        type: Sequelize.BOOLEAN,
+        defaultValue: false,
       },
       createdAt: {
         type: Sequelize.DATE,

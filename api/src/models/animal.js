@@ -16,8 +16,8 @@ module.exports = (sequelize, DataTypes) => {
           key: "id",
         },
       },
-      id_fazenda: {
-        type: DataTypes.INTEGER,
+      no_fazenda: {
+        type: DataTypes.STRING,
         allowNull: false,
       },
       no_animal: {

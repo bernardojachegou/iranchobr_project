@@ -28,6 +28,7 @@ module.exports = (sequelize, DataTypes) => {
       },
       ic_ativo: {
         type: DataTypes.BOOLEAN,
+        allowNull: false,
       },
     },
     { tableName: "pessoas" }

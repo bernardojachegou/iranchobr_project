@@ -28,7 +28,7 @@ module.exports = {
       },
       ic_ativo: {
         type: Sequelize.BOOLEAN,
-        defaultValue: true,
+        defaultValue: false,
       },
       createdAt: {
         type: Sequelize.DATE,

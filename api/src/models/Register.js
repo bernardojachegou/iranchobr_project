@@ -36,7 +36,8 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.DATE,
       },
       ic_bezerro: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
       },
     },
     { tableName: "animais_x_lotes" }

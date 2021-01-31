@@ -11,7 +11,7 @@ module.exports = {
       },
       fk_id_pessoa: {
         type: Sequelize.INTEGER,
-        allowNull: true, //Just in development;
+        allowNull: false,
         references: {
           model: "pessoas",
           key: "id",
@@ -19,15 +19,9 @@ module.exports = {
         onUpdate: "cascade",
         onDelete: "cascade",
       },
-      id_fazenda: {
-        type: Sequelize.INTEGER,
-        allowNull: true, //Just indevelopment;
-        references: {
-          model: "animais_lotes",
-          key: "id",
-        },
-        onUpdate: "cascade",
-        onDelete: "cascade",
+      no_fazenda: {
+        type: Sequelize.STRING,
+        allowNull: false,
       },
       no_animal: {
         type: Sequelize.STRING,
