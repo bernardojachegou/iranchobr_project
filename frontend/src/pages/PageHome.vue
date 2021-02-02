@@ -19,21 +19,24 @@
             :current-page="currentPage"
           >
             <template #cell(animal)="animalName">
-              {{ animalName.value }} eu
+              {{ animalName.value }}
             </template>
-            <template #cell(lote)="batchName">
+            <template #cell(batch)="batchName">
               {{ batchName.value }}
             </template>
-            <template #cell(entrada)="inputDate">
+            <template #cell(dt_entrada)="inputDate">
               {{ inputDate.value | moment }}
             </template>
-            <template #cell(saída)="outputDate">
+            <template #cell(dt_saida)="outputDate">
               {{ outputDate.value | moment }}
             </template>
-            <template #cell(Última_movimentação)="lastDate">
+            <template #cell(ultima_movimentacao)="lastDate">
               {{ lastDate.value | moment }}
             </template>
-            <template #cell(Opções)="row">
+            <template #cell(ic_bezerro)="calf">
+              {{ calf.value === true ? "Sim" : "Não" }}
+            </template>
+            <template #cell(opcoes)="row">
               <DeleteButton :row="row" @delete="deleteItem" />
             </template>
           </b-table>
@@ -75,29 +78,36 @@ export default {
     fields: [
       {
         key: "animal",
+        label: "Nome do animal",
         sortable: true,
       },
       {
-        key: "lote",
+        key: "batch",
+        label: "Nome do lote",
         sortable: true,
       },
       {
-        key: "entrada",
+        key: "dt_entrada",
+        label: "Entrada",
         sortable: true,
       },
       {
-        key: "saída",
+        key: "dt_saida",
+        label: "Saída",
         sortable: true,
       },
       {
-        key: "Última_movimentação",
+        key: "ultima_movimentacao",
+        label: "Última movimentação",
         sortable: true,
       },
       {
         key: "ic_bezerro",
+        label: "É Bezerro?",
       },
       {
-        key: "Opções",
+        key: "opcoes",
+        label: "Opções",
       },
     ],
   }),
@@ -120,10 +130,10 @@ export default {
         this.registers = value.data.registers.map((registers) => ({
           id: registers.id,
           animal: registers.animal.no_animal,
-          lote: registers.batch.no_lote,
-          entrada: registers.dt_entrada,
-          saída: registers.dt_saida,
-          Última_movimentação: registers.dt_ultima_movimentacao,
+          batch: registers.batch.no_lote,
+          dt_entrada: registers.dt_entrada,
+          dt_saida: registers.dt_saida,
+          ultima_movimentacao: registers.dt_ultima_movimentacao,
           ic_bezerro: registers.ic_bezerro,
         }));
       });

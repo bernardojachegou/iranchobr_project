@@ -62,17 +62,18 @@
 
             <!-- Input -->
             <b-form-group
-              label="Bezerro:"
-              label-for="ic_bezerro"
+              label="É Bezerro?"
               label-cols-sm="3"
               label-align-sm="right"
+              class="mb-0"
+              v-slot="{ ariaDescribedby }"
             >
-              <b-form-input
-                id="ic_bezerro"
-                type="number"
-                v-model="form.calf_id"
-              >
-              </b-form-input>
+              <b-form-radio-group
+                class="pt-2"
+                :options="options"
+                :aria-describedby="ariaDescribedby"
+                v-model="form.calf"
+              ></b-form-radio-group>
             </b-form-group>
           </b-form-group>
         </b-card>
@@ -106,8 +107,12 @@ export default {
     form: {
       input_date: "",
       output_date: "",
-      calf_id: "",
+      calf: "1",
     },
+    options: [
+      { text: "Sim", value: 1 },
+      { text: "Não", value: 0 },
+    ],
     dismissCountDown: 0,
   }),
   methods: {
@@ -117,19 +122,23 @@ export default {
         fk_id_lote: this.batch,
         dt_entrada: this.form.input_date,
         dt_saida: this.form.output_date,
-        ic_bezerro: this.form.calf_id,
+        ic_bezerro: this.form.calf,
       };
 
       console.log(form);
 
       api.post("/registers", form).then(
         () => {
-          this.form = {
+          (this.form = {
             input_date: "",
             output_date: "",
             lastUpdate: "",
-            calf_id: "",
-          };
+            calf: "1",
+          }),
+            {
+              animal: "",
+              batch: "",
+            };
           this.dismissCountDown = 3;
         },
         (err) => console.log(err)
@@ -138,14 +147,14 @@ export default {
   },
   created() {
     //get the animals list
-    api.get("/animals").then((value) => {
+    api.get("/animals/all").then((value) => {
       this.animals = value.data.map((animals) => ({
         value: animals.id,
         text: animals.no_animal,
       }));
     });
     //get the batches list
-    api.get("/batches").then((value) => {
+    api.get("/batches/all").then((value) => {
       this.batches = value.data.map((batches) => ({
         value: batches.id,
         text: batches.no_lote,

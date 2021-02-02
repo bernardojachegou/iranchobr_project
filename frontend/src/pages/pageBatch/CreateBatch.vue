@@ -23,6 +23,7 @@
                   id="lote"
                   type="text"
                   v-model="form.name"
+                  placeholder="Por raça, tempo de vida, ou especificidade"
                 ></b-form-input>
               </b-form-group>
 
@@ -36,6 +37,7 @@
                   id="descricao-lote"
                   type="text"
                   v-model="form.description"
+                  placeholder="Descrição completa de acordo com o objetivo de criação deste lote"
                 ></b-form-textarea>
               </b-form-group>
             </b-form-group>

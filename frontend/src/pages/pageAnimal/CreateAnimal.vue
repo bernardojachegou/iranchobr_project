@@ -27,17 +27,17 @@
             </b-form-group>
 
             <b-form-group
-              label="Fazenda:"
-              label-for="fazenda"
+              label="Nome da fazenda:"
+              label-for="nome-fazenda"
               label-cols-sm="3"
               label-align-sm="right"
             >
-              <div class="form-group">
-                <b-form-select
-                  v-model="batch"
-                  :options="batches"
-                ></b-form-select>
-              </div>
+              <b-form-input
+                id="nome-fazenda"
+                type="text"
+                v-model="form.farm_name"
+                placeholder="Nome completo da propriedade"
+              ></b-form-input>
             </b-form-group>
 
             <b-form-group
@@ -50,6 +50,7 @@
                 id="nome-animal"
                 type="text"
                 v-model="form.animal_name"
+                placeholder="Nome ou apelido"
               ></b-form-input>
             </b-form-group>
 
@@ -63,6 +64,7 @@
                 id="raca"
                 type="text"
                 v-model="form.ox_breed"
+                placeholder="Nelore, Brahman, Bragus, Senepol..."
               ></b-form-input>
             </b-form-group>
 
@@ -91,6 +93,7 @@
                 id="peso"
                 type="number"
                 v-model="form.weight"
+                placeholder="Até 1100kgs"
               ></b-form-input>
             </b-form-group>
 
@@ -135,10 +138,8 @@ export default {
   data: () => ({
     owner: null,
     owners: [],
-    batch: null,
-    batches: [],
     form: {
-      farm_id: "",
+      farm_name: "",
       animal_name: "",
       ox_breed: "",
       gender: "M",
@@ -151,7 +152,7 @@ export default {
     addAnimal() {
       const form = {
         fk_id_pessoa: this.owner,
-        id_fazenda: this.batch,
+        no_fazenda: this.form.farm_name,
         no_animal: this.form.animal_name,
         no_raca: this.form.ox_breed,
         sexo: this.form.gender,
@@ -164,7 +165,7 @@ export default {
       api.post("/animals", form).then(
         () => {
           this.form = {
-            farm_id: "",
+            farm_name: "",
             animal_name: "",
             ox_breed: "",
             gender: "M",
@@ -178,16 +179,10 @@ export default {
     },
   },
   created() {
-    api.get("/people").then((value) => {
+    api.get("/people/all").then((value) => {
       this.owners = value.data.map((people) => ({
         value: people.id,
         text: people.no_pessoa,
-      }));
-    });
-    api.get("/batches").then((value) => {
-      this.batches = value.data.map((batches) => ({
-        value: batches.id,
-        text: batches.no_lote,
       }));
     });
   },
