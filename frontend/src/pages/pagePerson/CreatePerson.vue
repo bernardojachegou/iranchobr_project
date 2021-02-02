@@ -70,7 +70,7 @@
             </b-form-group>
 
             <b-form-group
-              label="IC Ativo:"
+              label="Ativo:"
               label-cols-sm="3"
               label-align-sm="right"
               class="mb-0"

@@ -15,11 +15,32 @@
             class="text-center"
             :items="people"
             :fields="fields"
+            :per-page="perPage"
+            :current-page="currentPage"
           >
-            <template #cell(Opções)="row">
+            <template #cell(nome)="personName">
+              {{ personName.value }}
+            </template>
+            <template #cell(email)="email">
+              {{ email.value }}
+            </template>
+            <template #cell(endereco)="address">
+              {{ address.value }}
+            </template>
+            <template #cell(ic_ativo)="isActive">
+              {{ isActive.value == 1 ? "Sim" : "Não" }}
+            </template>
+            <template #cell(opcoes)="row">
               <DeleteButton :row="row" @delete="deleteItem" />
             </template>
           </b-table>
+          <b-pagination
+            v-model="currentPage"
+            :total-rows="totalItems"
+            :per-page="perPage"
+            aria-controls="my-table"
+          >
+          </b-pagination>
         </div>
       </div>
     </div>
@@ -36,18 +57,34 @@ export default {
     DeleteButton,
   },
   data: () => ({
+    perPage: 8,
+    currentPage: 1,
+    totalItems: 0,
     people: Array,
     fields: [
       {
+        label: "Nome",
         key: "nome",
         sortable: true,
       },
       {
-        key: "endereço",
+        label: "E-mail",
+        key: "email",
         sortable: true,
       },
       {
-        key: "Opções",
+        label: "Endereço",
+        key: "endereco",
+        sortable: true,
+      },
+      {
+        label: "Ativo?",
+        key: "ic_ativo",
+        sortable: true,
+      },
+      {
+        label: "Opcões",
+        key: "opcoes",
       },
     ],
   }),
@@ -65,10 +102,13 @@ export default {
     },
     getList() {
       api.get("/people").then((value) => {
-        this.people = value.data.map((people) => ({
+        this.totalItems = value.data.totalItems;
+        this.people = value.data.registers.map((people) => ({
           id: people.id,
           nome: people.no_pessoa,
-          endereço: people.endereco,
+          email: people.no_email,
+          endereco: people.endereco,
+          ic_ativo: people.ic_ativo,
         }));
       });
     },

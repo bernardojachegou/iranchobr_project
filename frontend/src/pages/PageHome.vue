@@ -34,7 +34,7 @@
               {{ lastDate.value | moment }}
             </template>
             <template #cell(ic_bezerro)="calf">
-              {{ calf.value === true ? "Sim" : "Não" }}
+              {{ calf.value == true ? "Sim" : "Não" }}
             </template>
             <template #cell(opcoes)="row">
               <DeleteButton :row="row" @delete="deleteItem" />
