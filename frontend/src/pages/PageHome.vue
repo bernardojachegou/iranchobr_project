@@ -21,7 +21,7 @@
             <template #cell(animal)="animalName">
               {{ animalName.value }}
             </template>
-            <template #cell(batch)="batchName">
+            <template #cell(lote)="batchName">
               {{ batchName.value }}
             </template>
             <template #cell(dt_entrada)="inputDate">
@@ -82,7 +82,7 @@ export default {
         sortable: true,
       },
       {
-        key: "batch",
+        key: "lote",
         label: "Nome do lote",
         sortable: true,
       },
@@ -130,7 +130,7 @@ export default {
         this.registers = value.data.registers.map((registers) => ({
           id: registers.id,
           animal: registers.animal.no_animal,
-          batch: registers.batch.no_lote,
+          lote: registers.batch.no_lote,
           dt_entrada: registers.dt_entrada,
           dt_saida: registers.dt_saida,
           ultima_movimentacao: registers.dt_ultima_movimentacao,

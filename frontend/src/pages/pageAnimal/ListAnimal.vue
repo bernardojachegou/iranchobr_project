@@ -15,11 +15,32 @@
             class="text-center"
             :items="animals"
             :fields="fields"
+            :per-page="perPage"
+            :current-page="currentPage"
           >
-            <template #cell(Opções)="row">
+            <template #cell(nome_animal)="animalName">
+              {{ animalName.value }}
+            </template>
+            <template #cell(nome_fazenda)="farmName">
+              {{ farmName.value }}
+            </template>
+            <template #cell(raca)="oxBreed">
+              {{ oxBreed.value }}
+            </template>
+            <template #cell(peso)="animalWeight">
+              {{ animalWeight.value }}
+            </template>
+            <template #cell(opcoes)="row">
               <DeleteButton :row="row" @delete="deleteItem" />
             </template>
           </b-table>
+          <b-pagination
+            v-model="currentPage"
+            :total-rows="totalItems"
+            :per-page="perPage"
+            aria-controls="my-table"
+          >
+          </b-pagination>
         </div>
       </div>
     </div>
@@ -36,22 +57,34 @@ export default {
     DeleteButton,
   },
   data: () => ({
+    perPage: 8,
+    currentPage: 1,
+    totalItems: 0,
     animals: Array,
     fields: [
       {
-        key: "nome_do_animal",
+        label: "Nome do animal",
+        key: "nome_animal",
         sortable: true,
       },
       {
-        key: "raça",
+        label: "Fazenda",
+        key: "nome_fazenda",
         sortable: true,
       },
       {
+        label: "Raça",
+        key: "raca",
+        sortable: true,
+      },
+      {
+        label: "Peso",
         key: "peso",
         sortable: true,
       },
       {
-        key: "Opções",
+        label: "Opções",
+        key: "opcoes",
       },
     ],
   }),
@@ -69,10 +102,12 @@ export default {
     },
     getList() {
       api.get("/animals").then((value) => {
-        this.animals = value.data.map((animals) => ({
+        this.totalItems = value.data.totalItems;
+        this.animals = value.data.registers.map((animals) => ({
           id: animals.id,
-          nome_do_animal: animals.no_animal,
-          raça: animals.no_raca,
+          nome_animal: animals.no_animal,
+          nome_fazenda: animals.no_fazenda,
+          raca: animals.no_raca,
           peso: `${animals.vr_peso}kg`,
         }));
       });
